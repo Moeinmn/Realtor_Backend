@@ -1,9 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param } from "@nestjs/common";
 
-@Controller('test')
+@Controller("test")
 export class AppController {
-  @Get(':id')
-  getAllExpense(@Param('id') x: string): string {
+  @Get(":id")
+  getAllExpense(@Param("id") x: string): string {
     return x;
   }
 }
