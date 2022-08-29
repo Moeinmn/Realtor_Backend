@@ -12,9 +12,17 @@ module.exports = {
   ],
   root: true,
   env: {
+    es6: true,
     node: true,
     jest: true,
   },
+  "prettier/prettier": [
+    "error",
+    {
+      "singleQuote": true,
+      "parser": "flow"
+    }
+  ],
   ignorePatterns: ['.eslintrc.js'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',

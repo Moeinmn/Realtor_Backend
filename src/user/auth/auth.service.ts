@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { SignUpDto } from './../dtos/auth.dto';
 
 @Injectable()
 export class AuthService {
-
-    // constructor()
-
-  signUp() {
-    return 'abc';
+  signUp(signUpData : SignUpDto) {
+    return {
+      signUpData
+    };
   }
 }
