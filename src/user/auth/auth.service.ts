@@ -1,5 +1,5 @@
 import { ConflictException, HttpException, Injectable } from "@nestjs/common";
-import { SignInDto, SignUpDto } from "./../dtos/auth.dto";
+import { GenerateProductKeyDto, SignInDto, SignUpDto } from "./../dtos/auth.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 
 import * as bcrypt from "bcryptjs";
@@ -15,7 +15,7 @@ export class AuthService {
     return jwt.sign(obj, process.env.JWT_KEY || "moeinmoein");
   }
 
-  async signUpService({ name, email, password, phone }: SignUpDto) {
+  async signUpService({ name, email, password, phone }: SignUpDto , userType : UserType) {
     const userExists = await this.prismaService.user.findUnique({
       where: {
         email,
@@ -33,7 +33,7 @@ export class AuthService {
         email: email,
         password: hashedPass,
         phone: phone,
-        user_type: UserType.BUYER,
+        user_type: userType,
       },
     });
 
@@ -70,7 +70,15 @@ export class AuthService {
     }
   }
 
-  async generateProductKey (){
+  async generateProductKey (
+    createKeyData : GenerateProductKeyDto
+  ){
+
+    let keyString = `${createKeyData.email}-${createKeyData.userType}-${process.env.GENERATE_KEY_SECRET}`
     
+    const hashedKey = this.generateProductKey( keyString )
+
+    return hashedKey
+
   }
 }
