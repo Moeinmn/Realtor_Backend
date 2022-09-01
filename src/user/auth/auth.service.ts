@@ -69,4 +69,8 @@ export class AuthService {
       throw new HttpException("wrong pass", 401);
     }
   }
+
+  async generateProductKey (){
+    
+  }
 }
