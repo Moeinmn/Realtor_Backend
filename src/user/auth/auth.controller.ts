@@ -9,13 +9,13 @@ export class AuthController {
   async signUp(
     @Body() signUpData : SignUpDto
   ) {
-    return await this.authService.signUp(signUpData);
+    return await this.authService.signUpService(signUpData);
   }
 
   @Post("signin")
   async signIn(
     @Body() signInData : SignInDto
   ){
-     return this 
+     return this.authService.signInService(signInData)
   }
 }

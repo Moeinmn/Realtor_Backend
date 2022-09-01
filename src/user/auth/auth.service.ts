@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ConflictException, HttpException, Injectable } from "@nestjs/common";
 import { SignInDto, SignUpDto } from "./../dtos/auth.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 
@@ -11,7 +11,11 @@ import { UserType } from "@prisma/client";
 export class AuthService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async signUp({ name, email, password, phone }: SignUpDto) {
+  private setJwt(obj) {
+    return jwt.sign(obj, process.env.JWT_KEY || "moeinmoein");
+  }
+
+  async signUpService({ name, email, password, phone }: SignUpDto) {
     const userExists = await this.prismaService.user.findUnique({
       where: {
         email,
@@ -35,26 +39,34 @@ export class AuthService {
 
     console.log({ ...creatredUser });
 
-    let userJwt = jwt.sign(
-      {
-        id: creatredUser.id,
-        name,
-        email,
-      },
-      process.env.JWT_KEY || "moeinmoein"
-    );
+    let userJwt = this.setJwt({
+      id: creatredUser.id,
+      name,
+      email,
+    });
 
     return userJwt;
   }
 
   async signInService({ email, password }: SignInDto) {
-
-    let hashedPass = await bcrypt.hash(password , 5)
-
     let userData = await this.prismaService.user.findUnique({
-      where:{
-        email
-      }
-    })
+      where: {
+        email,
+      },
+    });
+
+    if (!userData) throw new HttpException("user doesnt exist", 404);
+
+    let passIsTrue = await bcrypt.compare(password, userData.password);
+
+    if (passIsTrue) {
+      return this.setJwt({
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+      });
+    } else {
+      throw new HttpException("wrong pass", 401);
+    }
   }
 }
