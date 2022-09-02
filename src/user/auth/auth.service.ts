@@ -76,7 +76,7 @@ export class AuthService {
 
     let keyString = `${createKeyData.email}-${createKeyData.userType}-${process.env.GENERATE_KEY_SECRET}`
     
-    const hashedKey = this.generateProductKey( keyString )
+    const hashedKey = this.setJwt( keyString )
 
     return hashedKey
 
