@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { SignInDto, SignUpDto, GenerateProductKeyDto } from './../dtos/auth.dto';
 import { UserType } from '@prisma/client';
 
-@Controller('auth')
+@Controller('/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService){}
   @Post('/signup/:userType')

@@ -1,6 +1,12 @@
 import { PropertyType } from "@prisma/client";
 import { Exclude, Expose } from "class-transformer";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
+export interface SearchHomeDto{
+  landSize : number ;
+  minPrice : number ;
+  maxPrice : number ;
+}
 export class HomeResponseDto {
   constructor(partial: Partial<HomeResponseDto>) {
     Object.assign(this, partial);
@@ -51,4 +57,31 @@ export class HomeResponseDto {
   created_at: Date;
   @Exclude()
   updated_at: Date;
+}
+
+export class CreateHomeDto{
+  
+  @IsString()
+  @IsNotEmpty()
+  address:string
+  
+  @IsNumber()
+  @IsNotEmpty()
+  number_of_bedrooms  :number;
+  
+  @IsNumber()
+  @IsNotEmpty()
+  number_of_bathrooms:number;
+  
+  @IsNotEmpty()
+  city:string;
+  
+  @IsNotEmpty()
+  price:number;
+  
+  @IsNotEmpty()
+  land_size:number;
+  
+  @IsNotEmpty()
+  propertyType:PropertyType
 }
