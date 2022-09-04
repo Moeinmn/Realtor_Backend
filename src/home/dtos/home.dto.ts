@@ -1,6 +1,8 @@
 import { PropertyType } from "@prisma/client";
 import { Exclude, Expose } from "class-transformer";
 
+
+// DTOs ===============================================
 export class HomeResponseDto {
   constructor(partial: Partial<HomeResponseDto>) {
     Object.assign(this, partial);
@@ -52,3 +54,17 @@ export class HomeResponseDto {
   @Exclude()
   updated_at: Date;
 }
+
+export class UpdateHomeRequestDto{
+  
+}
+
+export class CreateHomeRequestDto{}
+
+//=====================================================
+
+// Query intrerfaces ==================================
+export interface SearchHomeQuery{
+
+}
+//=====================================================
