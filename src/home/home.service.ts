@@ -29,7 +29,9 @@ export class HomeService {
 
   async inqureHome() {}
 
-  async updateHome() {}
+  async updateHome(
+    
+  ) {}
 
   async deleteHome(id: number) {
     let home = await this.prismaService.user.delete({
