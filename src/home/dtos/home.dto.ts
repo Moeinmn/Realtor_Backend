@@ -2,11 +2,9 @@ import { PropertyType } from "@prisma/client";
 import { Exclude, Expose } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export interface SearchHomeDto{
-  landSize : number ;
-  minPrice : number ;
-  maxPrice : number ;
-}
+
+
+// DTOs ===============================================
 export class HomeResponseDto {
   constructor(partial: Partial<HomeResponseDto>) {
     Object.assign(this, partial);
@@ -85,3 +83,18 @@ export class CreateHomeDto{
   @IsNotEmpty()
   propertyType:PropertyType
 }
+export class UpdateHomeRequestDto{
+  
+}
+
+export class CreateHomeRequestDto{}
+
+//=====================================================
+
+// Query intrerfaces ==================================
+export interface SearchHomeDto{
+  landSize : number ;
+  minPrice : number ;
+  maxPrice : number ;
+}
+//=====================================================

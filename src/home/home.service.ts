@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "./../prisma/prisma.service";
 import { HomeResponseDto, SearchHomeDto } from "./dtos/home.dto";
 
@@ -13,7 +13,17 @@ export class HomeService {
     return homes.map((home) => new HomeResponseDto(home));
   }
 
-  async getOneHome() {}
+  async getOneHome(id: number) {
+    let home = await this.prismaService.home.findUnique({
+      where: {
+        id,
+      },
+    });
+    
+    if (!home) new NotFoundException();
+
+    return new HomeResponseDto(home);
+  }
 
   async createHome() {}
 
@@ -21,5 +31,14 @@ export class HomeService {
 
   async updateHome() {}
 
-  async deleteHome() {}
+  async deleteHome(id: number) {
+    let home = await this.prismaService.user.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (!home) new NotFoundException();
+    return `home with id = ${home.id} deleted successfully`;
+  }
 }
