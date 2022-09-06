@@ -1,5 +1,14 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
-import { SearchHomeDto } from "./dtos/home.dto";
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+} from "@nestjs/common";
+import { HomeResponseDto } from "./dtos/home.dto";
 import { HomeService } from "./home.service";
 
 @Controller("/home")
@@ -8,15 +17,26 @@ export class HomeController {
 
   @Get()
   async getAllHomes(
-    @Query() searchObj : SearchHomeDto
-  ) {
-    return this.homeService.getAllHomes(searchObj);
+    @Query("landSize") landSize: number,
+    @Query("maxPrice") maxPrice: number,
+    @Query("minPrice") minPrice: number
+  ): Promise<HomeResponseDto[]> {
+    
+    const filterObj  = {
+      ...(landSize && { landSize }),
+      price:(maxPrice || minPrice
+        ? {
+            ...(minPrice && { min_price : maxPrice }),
+            ...(maxPrice && { max_price : maxPrice }),
+          }
+        : undefined),
+    };
+
+    return this.homeService.getAllHomes(filterObj);
   }
 
   @Get(":id")
-  async getOneHome(
-    @Param() id : number
-  ) {
+  async getOneHome(@Param() id: number): Promise<HomeResponseDto> {
     return this.homeService.getOneHome(id);
   }
 
@@ -36,9 +56,7 @@ export class HomeController {
   }
 
   @Delete(":id")
-  async deleteHome(
-    @Param('id' , ParseIntPipe) id : number 
-  ) {
+  async deleteHome(@Param("id", ParseIntPipe) id: number) {
     return this.homeService.deleteHome(id);
   }
 }

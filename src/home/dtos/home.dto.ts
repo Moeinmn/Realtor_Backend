@@ -92,9 +92,11 @@ export class CreateHomeRequestDto{}
 //=====================================================
 
 // Query intrerfaces ==================================
-export interface SearchHomeDto{
-  landSize : number ;
-  minPrice : number ;
-  maxPrice : number ;
+export interface SearchHomeInterface{
+  landSize ?:number ; 
+  price?:{
+    min_price:number;
+    max_price:number;
+  }
 }
 //=====================================================
