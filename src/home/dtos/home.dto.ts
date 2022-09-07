@@ -1,8 +1,6 @@
 import { PropertyType } from "@prisma/client";
 import { Exclude, Expose } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
-
-
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 // DTOs ===============================================
 export class HomeResponseDto {
@@ -57,46 +55,68 @@ export class HomeResponseDto {
   updated_at: Date;
 }
 
-export class CreateHomeDto{
-  
+export class CreateHomeRequestDto {
   @IsString()
   @IsNotEmpty()
-  address:string
-  
+  address: string;
+
   @IsNumber()
   @IsNotEmpty()
-  number_of_bedrooms  :number;
-  
+  number_of_bedrooms: number;
+
   @IsNumber()
   @IsNotEmpty()
-  number_of_bathrooms:number;
-  
+  number_of_bathrooms: number;
+
   @IsNotEmpty()
-  city:string;
-  
+  city: string;
+
   @IsNotEmpty()
-  price:number;
-  
+  price: number;
+
   @IsNotEmpty()
-  land_size:number;
-  
+  land_size: number;
+
+  @IsEnum(PropertyType)
   @IsNotEmpty()
-  propertyType:PropertyType
+  propertyType: PropertyType;
 }
-export class UpdateHomeRequestDto{
-  
+export class UpdateHomeRequestDto {
+  @IsString()
+  @IsNotEmpty()
+  address: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  number_of_bedrooms: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  number_of_bathrooms: number;
+
+  @IsNotEmpty()
+  city: string;
+
+  @IsNotEmpty()
+  price: number;
+
+  @IsNotEmpty()
+  land_size: number;
+
+  @IsEnum(PropertyType)
+  @IsNotEmpty()
+  propertyType: PropertyType;
 }
 
-export class CreateHomeRequestDto{}
 
 //=====================================================
 
 // Query intrerfaces ==================================
-export interface SearchHomeInterface{
-  landSize ?:number ; 
-  price?:{
-    min_price:number;
-    max_price:number;
-  }
+export interface SearchHomeDto {
+  land_size?: number;
+  price: {
+    gte?: number;
+    lte?: number;
+  };
 }
 //=====================================================
