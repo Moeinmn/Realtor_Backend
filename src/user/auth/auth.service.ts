@@ -64,6 +64,7 @@ export class AuthService {
         id: userData.id,
         name: userData.name,
         email: userData.email,
+        userType : userData.user_type
       });
     } else {
       throw new HttpException("wrong pass", 401);
